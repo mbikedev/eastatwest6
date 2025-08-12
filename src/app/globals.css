@@ -1,0 +1,197 @@
+@import "tailwindcss";
+
+/* Critical styles are inlined, this is for Tailwind and remaining styles */
+
+@layer base {
+  html,
+  :host {
+    scroll-behavior: smooth;
+  }
+  
+  body {
+    @apply transition-colors duration-300;
+  }
+  
+  /* Rozha One font utility for critical LCP text */
+  .font-rozha {
+    font-family: var(--font-rozha-one), serif;
+    font-style: italic;
+    font-weight: 300;
+    line-height: 1.625;
+  }
+  
+  /* System font stack for hero titles - replaces ZCOOL XiaoWei */
+  .font-zcool {
+    font-family: "Georgia", "Times New Roman", "Times", serif;
+    font-weight: 700;
+    font-style: normal;
+  }
+}
+
+/* Component styles moved to non-critical CSS for better performance */
+
+/* Utilities moved to non-critical CSS for better loading performance */
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-gray-100 dark:bg-gray-800;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-orange-500 rounded-full;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-orange-600;
+}
+
+/* Smooth animations */
+.animate-fade-in {
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+.animate-slide-up {
+  animation: slideUp 0.5s ease-out;
+}
+
+.animate-bounce-in {
+  animation: bounceIn 0.6s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes bounceIn {
+  0% {
+    transform: scale(0.3);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  70% {
+    transform: scale(0.9);
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes lightboxEnter {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes lightboxExit {
+  from {
+    opacity: 1;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+}
+
+/* Read More animations */
+.read-more-transition {
+  transition: max-height 0.4s ease-in-out, opacity 0.3s ease-in-out;
+}
+
+.read-more-collapsed {
+  max-height: 6rem; /* Approximately 3-4 lines */
+  overflow: hidden;
+}
+
+.read-more-expanded {
+  max-height: none;
+}
+
+/* Enhanced Lightbox Styles for Full Viewport Display */
+.lightbox-image {
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: transform, opacity;
+}
+
+@media (max-width: 768px) {
+  .lightbox-image {
+    min-width: 250px !important;
+    min-height: 250px !important;
+    max-width: calc(100vw - 2rem) !important;
+    max-height: calc(100vh - 4rem) !important;
+  }
+}
+
+@media (min-width: 769px) {
+  .lightbox-image {
+    min-width: 400px !important;
+    min-height: 400px !important;
+  }
+}
+
+/* Ensure smooth zoom for small images */
+.lightbox-zoom {
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
+  image-rendering: pixelated;
+}
+
+/* High resolution image scaling */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  .lightbox-image {
+    image-rendering: auto;
+  }
+}
+
+/* Final override to ensure text-size-adjust is properly supported across all browsers */
+/* This must be at the end to override any Tailwind-generated rules */
+html,
+:host {
+  -webkit-text-size-adjust: 100% !important;
+  -moz-text-size-adjust: 100% !important;
+  -ms-text-size-adjust: 100% !important;
+  text-size-adjust: 100% !important;
+}
+
+/* Additional specificity to ensure these rules take precedence */
+html:not([data-override]) {
+  -webkit-text-size-adjust: 100% !important;
+  -moz-text-size-adjust: 100% !important;
+  -ms-text-size-adjust: 100% !important;
+  text-size-adjust: 100% !important;
+}
+
+:host:not([data-override]) {
+  -webkit-text-size-adjust: 100% !important;
+  -moz-text-size-adjust: 100% !important;
+  -ms-text-size-adjust: 100% !important;
+  text-size-adjust: 100% !important;
+}

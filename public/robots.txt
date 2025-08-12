@@ -1,0 +1,48 @@
+# Robots.txt for East @ West Lebanese Restaurant
+# https://eastatwest.com
+
+User-agent: *
+Allow: /
+
+# Specific directives for major search engines
+User-agent: Googlebot
+Allow: /
+Crawl-delay: 1
+
+User-agent: Bingbot
+Allow: /
+Crawl-delay: 1
+
+User-agent: Slurp
+Allow: /
+Crawl-delay: 2
+
+# Block admin and private areas
+Disallow: /admin/
+Disallow: /api/
+Disallow: /_next/static/
+Disallow: /_next/image/
+Disallow: /checkout/
+Disallow: /payment/
+
+# Allow important directories
+Allow: /images/
+Allow: /pdfs/
+Allow: /locales/
+
+# Important pages to crawl
+Allow: /menu
+Allow: /gallery
+Allow: /about
+Allow: /contact
+Allow: /reservations
+Allow: /takeaway
+Allow: /events-catering
+Allow: /blog
+
+# Sitemap location
+Sitemap: https://eastatwest.com/sitemap.xml
+
+# Additional sitemaps for specific content
+Sitemap: https://eastatwest.com/sitemap-images.xml
+Sitemap: https://eastatwest.com/sitemap-blog.xml

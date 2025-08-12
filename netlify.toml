@@ -1,0 +1,73 @@
+[build]
+  command = "npm run build"
+  publish = ".next"
+
+[build.environment]
+  NODE_VERSION = "18"
+  SECRETS_SCAN_OMIT_KEYS = "NEXT_PUBLIC_SUPABASE_ANON_KEY,NEXT_PUBLIC_SUPABASE_URL,RESEND_API_KEY,RESEND_FROM_EMAIL,NEXT_PUBLIC_GOOGLE_MAPS_API_KEY,NEXT_PUBLIC_GOOGLE_MAPS_MAP_ID"
+
+# Environment variables should be set in Netlify dashboard:
+# NEXT_PUBLIC_SUPABASE_URL
+# NEXT_PUBLIC_SUPABASE_ANON_KEY
+# RESEND_API_KEY
+# RESEND_FROM_EMAIL
+# NEXT_PUBLIC_GOOGLE_MAPS_API_KEY
+# NEXT_PUBLIC_GOOGLE_MAPS_MAP_ID
+
+[[plugins]]
+  package = "@netlify/plugin-nextjs"
+
+# Enable compression for all text-based assets
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Content-Security-Policy = "frame-ancestors 'none'"
+
+# Compression and caching for static assets
+[[headers]]
+  for = "/_next/static/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# Compression for PDF files
+[[headers]]
+  for = "/pdfs/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+    Content-Type = "application/pdf"
+
+# Cache headers for local Restaurant Guru assets
+[[headers]]
+  for = "/assets/restaurant-guru/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+    Vary = "Accept-Encoding"
+
+# Cache headers for all assets
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=2592000"
+    Vary = "Accept-Encoding"
+
+# Compression for HTML pages
+[[headers]]
+  for = "/*.html"
+  [headers.values]
+    Cache-Control = "public, max-age=300"
+    Vary = "Accept-Encoding"
+
+# Enable Brotli and Gzip compression
+[build.processing.css]
+  bundle = true
+  minify = true
+
+[build.processing.js]
+  bundle = true
+  minify = true
+
+[build.processing.html]
+  pretty_urls = true 

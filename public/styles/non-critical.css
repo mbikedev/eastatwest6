@@ -1,0 +1,266 @@
+/* Non-critical CSS - Loaded after initial render */
+
+/* Advanced animations and effects */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes bounceIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.3);
+  }
+  50% {
+    opacity: 0.9;
+    transform: scale(1.05);
+  }
+  80% {
+    opacity: 1;
+    transform: scale(0.95);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes lightboxEnter {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes lightboxExit {
+  from {
+    opacity: 1;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+@keyframes shake {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-5px);
+  }
+  75% {
+    transform: translateX(5px);
+  }
+}
+
+/* Animation classes */
+.animate-bounce-in {
+  animation: bounceIn 0.6s ease-out;
+}
+
+.animate-slide-up {
+  animation: slideUp 0.5s ease-out;
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+.animate-pulse {
+  animation: pulse 2s infinite;
+}
+
+.animate-shake {
+  animation: shake 0.5s ease-in-out;
+}
+
+.lightbox-enter {
+  animation: lightboxEnter 0.3s ease-out;
+}
+
+.lightbox-exit {
+  animation: lightboxExit 0.3s ease-in;
+}
+
+/* Advanced shadows and effects */
+.hover\:shadow-3xl:hover {
+  box-shadow: 0 35px 60px -12px rgba(0, 0, 0, 0.25), 0 25px 25px -5px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.3s ease;
+}
+
+.shadow-glow {
+  box-shadow: 0 0 20px rgba(249, 151, 71, 0.3);
+}
+
+.shadow-glow-dark {
+  box-shadow: 0 0 20px rgba(249, 151, 71, 0.5);
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+.theme-dark ::-webkit-scrollbar-track {
+  background: #374151;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(135deg, #A8D5BA 0%, #A8D5BA 100%);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(135deg, #A8D5BA 0%, #A8D5BA 100%);
+}
+
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+/* Component specific styles */
+.btn-secondary {
+  border: 2px solid;
+  border-image: linear-gradient(135deg, #A8D5BA 0%, #A8D5BA 100%) 1;
+  color: #A8D5BA;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  background: transparent;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-secondary:hover {
+  background: linear-gradient(135deg, #A8D5BA 0%, #A8D5BA 100%);
+  color: white;
+  transform: scale(1.05);
+}
+
+.card {
+  padding: 1.5rem;
+  border-radius: 0.5rem;
+  transition: all 0.3s ease;
+}
+
+.card:hover {
+  transform: scale(1.05);
+}
+
+.card-light {
+  background: #f8fafc;
+}
+
+.card-light:hover {
+  background: #f1f5f9;
+}
+
+.card-dark {
+  background: #1f2937;
+}
+
+.card-dark:hover {
+  background: #111827;
+}
+
+/* Background patterns */
+.bg-pattern {
+  background-image: 
+    radial-gradient(circle at 20% 50%, rgba(249, 151, 71, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 80% 20%, rgba(188, 144, 107, 0.1) 0%, transparent 50%);
+}
+
+.bg-pattern-dark {
+  background-image: 
+    radial-gradient(circle at 20% 50%, rgba(249, 151, 71, 0.05) 0%, transparent 50%),
+    radial-gradient(circle at 80% 20%, rgba(188, 144, 107, 0.05) 0%, transparent 50%);
+}
+
+/* Gradient borders */
+.gradient-border {
+  position: relative;
+  background: linear-gradient(white, white) padding-box,
+              linear-gradient(135deg, #A8D5BA, #A8D5BA) border-box;
+  border: 2px solid transparent;
+  border-radius: 0.5rem;
+}
+
+.gradient-border-dark {
+  background: linear-gradient(#1f2937, #1f2937) padding-box,
+              linear-gradient(135deg, #A8D5BA, #A8D5BA) border-box;
+}
+
+/* Loading states */
+.skeleton {
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: loading 1.5s infinite;
+}
+
+@keyframes loading {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+.skeleton-dark {
+  background: linear-gradient(90deg, #374151 25%, #4b5563 50%, #374151 75%);
+  background-size: 200% 100%;
+  animation: loading 1.5s infinite;
+}
+
+/* Print styles */
+@media print {
+  .no-print {
+    display: none !important;
+  }
+  
+  * {
+    color: black !important;
+    background: white !important;
+  }
+}

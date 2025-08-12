@@ -1,0 +1,69 @@
+{
+  "name": "eastatwest",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@stripe/react-stripe-js": "^3.9.0",
+    "@stripe/stripe-js": "^7.8.0",
+    "@supabase/ssr": "^0.6.1",
+    "@supabase/supabase-js": "^2.50.2",
+    "@tailwindcss/postcss": "^4.1.11",
+    "autoprefixer": "^10.4.21",
+    "compression": "^1.8.1",
+    "framer-motion": "^12.23.0",
+    "i18next": "^25.2.1",
+    "i18next-http-backend": "^3.0.2",
+    "lucide-react": "^0.536.0",
+    "next": "15.3.4",
+    "postcss": "^8.5.6",
+    "react": "^19.0.0",
+    "react-hot-toast": "^2.5.2",
+    "react-i18next": "^15.5.3",
+    "resend": "^4.6.0",
+    "stripe": "^18.4.0"
+  },
+  "devDependencies": {
+    "@eslint/eslintrc": "^3",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/tailwindcss": "^3.0.11",
+    "compression-webpack-plugin": "^11.1.0",
+    "cssnano": "^7.1.0",
+    "eslint": "^9.33.0",
+    "tailwindcss": "^4.1.11"
+  },
+  "sideEffects": false,
+  "browserslist": {
+    "production": [
+      "Chrome >= 90",
+      "Firefox >= 88",
+      "Safari >= 14.1",
+      "Edge >= 90",
+      "> 0.25%",
+      "last 2 versions",
+      "not dead",
+      "not IE 11",
+      "not op_mini all"
+    ],
+    "modern": [
+      "Chrome >= 95",
+      "Firefox >= 95",
+      "Safari >= 15",
+      "Edge >= 95",
+      "> 1%",
+      "last 1 version",
+      "not dead"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}

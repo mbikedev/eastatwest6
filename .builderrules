@@ -1,0 +1,27 @@
+East at West - Fusion Restaurant Website
+A modern, responsive restaurant website built with Next.js, featuring a fusion of Eastern and Western cuisines. The website includes multilingual support, dark/light mode toggle, and a complete restaurant management system.
+
+🌟 Features
+✅ Core Features
+Multilingual Support: English, French, and Dutch translations
+Dark/Light Mode: Toggle between themes with persistent storage
+Responsive Design: Fully responsive across all devices
+Modern UI: Clean, professional design with smooth animations
+SEO Optimized: Meta tags, structured data, and performance optimized
+📱 Pages
+Home: Hero section, features, and call-to-action
+Menu: Categorized menu items with descriptions and pricing
+Reservations: Online booking form with validation
+Take Away: Delivery and pickup information
+🎨 Design Features
+Smooth Animations: CSS animations and transitions
+Interactive Elements: Hover effects and micro-interactions
+Accessibility: ARIA labels and keyboard navigation
+Custom Styling: Tailwind CSS with custom components
+🚀 Tech Stack
+Framework: Next.js 14 with App Router
+Styling: Tailwind CSS
+Internationalization: next-i18next
+Language: TypeScript/JavaScript
+State Management: React Context API
+Icons: Heroicons (SVG)
