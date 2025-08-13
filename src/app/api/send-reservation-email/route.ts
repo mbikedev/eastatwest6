@@ -239,8 +239,21 @@ export async function POST(req: NextRequest) {
       }
     });
 
-    console.log('Email sent successfully:', emailResult);
+    // Handle Resend response: it resolves with { data, error }
+    if ((emailResult as any)?.error) {
+      const err = (emailResult as any).error;
+      if (process.env.NODE_ENV !== 'production') {
+        console.warn('Resend email error in dev (pretending success):', err);
+        return NextResponse.json({ success: true, warning: 'Email not sent (dev). Configure RESEND_API_KEY.' });
+      }
+      console.error('Resend email error:', err);
+      return NextResponse.json(
+        { success: false, error: err?.message || 'Failed to send email' },
+        { status: 500 }
+      );
+    }
 
+    console.log('Email sent successfully:', emailResult);
     return NextResponse.json({ success: true });
   } catch (error) {
     console.error('Error sending email:', error);

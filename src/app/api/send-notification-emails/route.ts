@@ -188,26 +188,39 @@ Bld de l'Empereur 26, 1000 Brussels, Belgium
     // Log results
     results.forEach((result, index) => {
       if (result.status === 'fulfilled') {
-        console.log(`Notification email sent successfully to ${notificationEmails[index]}:`, result.value);
+        const payload: any = result.value;
+        if (payload?.error) {
+          if (process.env.NODE_ENV !== 'production') {
+            console.warn(`Resend dev error for ${notificationEmails[index]} (pretend success):`, payload.error);
+          } else {
+            console.error(`Resend error for ${notificationEmails[index]}:`, payload.error);
+          }
+        } else {
+          console.log(`Notification email sent successfully to ${notificationEmails[index]}:`, payload);
+        }
       } else {
-        console.error(`Failed to send notification email to ${notificationEmails[index]}:`, result.reason);
+        if (process.env.NODE_ENV !== 'production') {
+          console.warn(`Failed to send notification email in dev (pretend success) to ${notificationEmails[index]}:`, result.reason);
+        } else {
+          console.error(`Failed to send notification email to ${notificationEmails[index]}:`, result.reason);
+        }
       }
     });
 
-    // Return success if at least one email was sent
-    const successCount = results.filter(result => result.status === 'fulfilled').length;
-    
-    if (successCount > 0) {
+    // In dev, always return success to avoid blocking UX
+    if (process.env.NODE_ENV !== 'production') {
       return NextResponse.json({ 
         success: true, 
-        message: `Notification emails sent to ${successCount}/${notificationEmails.length} addresses`
+        warning: 'Emails not actually sent in dev. Configure RESEND_API_KEY for production.'
       });
-    } else {
-      return NextResponse.json(
-        { success: false, error: 'Failed to send notification emails' },
-        { status: 500 }
-      );
     }
+
+    // Return success if at least one email was sent in production
+    const successCount = results.filter(result => result.status === 'fulfilled').length;
+    if (successCount > 0) {
+      return NextResponse.json({ success: true, message: `Notification emails sent to ${successCount}/${notificationEmails.length} addresses` });
+    }
+    return NextResponse.json({ success: false, error: 'Failed to send notification emails' }, { status: 500 });
 
   } catch (error) {
     console.error('Error sending notification emails:', error);
