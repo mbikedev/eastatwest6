@@ -647,6 +647,7 @@ export default function HomePage() {
                       loading="lazy"
                       quality={70}
                       unoptimized
+                      onError={(e) => { (e.currentTarget as HTMLImageElement).src = '/placeholder.svg' }}
                     />
                     {/* ===== IMAGE OVERLAY ===== */}
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent"></div>
@@ -695,6 +696,7 @@ export default function HomePage() {
                       loading="lazy"
                       quality={55}
                       unoptimized
+                      onError={(e) => { (e.currentTarget as HTMLImageElement).src = '/placeholder.svg' }}
                     />
                     {/* ===== IMAGE OVERLAY ===== */}
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent"></div>
@@ -743,6 +745,7 @@ export default function HomePage() {
                       loading="lazy"
                       quality={70}
                       unoptimized
+                      onError={(e) => { (e.currentTarget as HTMLImageElement).src = '/placeholder.svg' }}
                     />
                     {/* ===== IMAGE OVERLAY ===== */}
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent"></div>
@@ -791,6 +794,7 @@ export default function HomePage() {
                       loading="lazy"
                       quality={55}
                       unoptimized
+                      onError={(e) => { (e.currentTarget as HTMLImageElement).src = '/placeholder.svg' }}
                     />
                     {/* ===== IMAGE OVERLAY ===== */}
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent"></div>
@@ -1225,6 +1229,7 @@ export default function HomePage() {
                           className="h-full w-auto object-contain rounded-lg shadow-lg hover:shadow-xl transition-all duration-300"
                           priority={false}
                           unoptimized
+                          onError={(e) => { (e.currentTarget as HTMLImageElement).src = '/placeholder.svg' }}
                         />
                       </div>
                     </a>
@@ -1258,6 +1263,7 @@ export default function HomePage() {
                           className="h-full w-auto object-contain rounded-lg shadow-lg hover:shadow-xl transition-all duration-300"
                           priority={false}
                           unoptimized
+                          onError={(e) => { (e.currentTarget as HTMLImageElement).src = '/placeholder.svg' }}
                         />
                       </div>
                     </a>
@@ -1498,6 +1504,7 @@ export default function HomePage() {
                         sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 40vw"
                         quality={50}
                         unoptimized
+                        onError={(e) => { (e.currentTarget as HTMLImageElement).src = '/placeholder.svg' }}
                       />
                       {/* ===== RESTAURANT IMAGE OVERLAY ===== */}
                       {/* Image Gradient Overlay for Text Readability */}
