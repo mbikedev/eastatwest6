@@ -1007,37 +1007,19 @@ export default function HomePage() {
               <div className="absolute inset-0 w-full h-full">
                 {/* ===== OPTIMIZED PARALLAX BACKGROUND ===== */}
                 {/* Next.js Image with lazy loading and optimization */}
-                <Image
-                  src="/images/parallax-image.webp"
-                  alt="East at West Restaurant Parallax Background"
-                  fill
-                  className="object-cover hidden md:block"
-                  style={{ 
-                    position: 'fixed',
-                    top: 0,
-                    left: 0,
-                    width: '100%',
-                    height: '100%',
-                    zIndex: -1
+                <div
+                  className="absolute inset-0 w-full h-full bg-cover bg-center bg-fixed hidden md:block"
+                  style={{
+                    backgroundImage: `url('/images/parallax-image.webp')`
                   }}
-                  sizes="100vw"
-                  quality={45}
-                  loading="lazy"
-                  placeholder="blur"
-                  blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bvdNvvuMcPl3sGRw=="
                 />
                 {/* ===== MOBILE PARALLAX BACKGROUND ===== */}
-                {/* Mobile optimized background */}
-                <Image
-                  src="/images/parallax-image.webp"
-                  alt="East at West Restaurant Mobile Background"
-                  fill
-                  className="object-cover block md:hidden"
-                  sizes="100vw"
-                  quality={40}
-                  loading="lazy"
-                  placeholder="blur"
-                  blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bvdNvvuMcPl3sGRw=="
+                {/* Static background for mobile devices */}
+                <div
+                  className="absolute inset-0 w-full h-full bg-cover bg-center block md:hidden"
+                  style={{
+                    backgroundImage: `url('/images/parallax-image.webp')`
+                  }}
                 />
 
                 {/* ===== PARALLAX OVERLAY ===== */}
