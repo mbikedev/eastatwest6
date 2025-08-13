@@ -1,9 +1,12 @@
 import { createClient } from '@/utils/supabase/client'
 import type { Blog, BlogListParams } from '@/types/blog'
 import { SAMPLE_BLOGS } from './sampleBlogs'
-import { checkSupabaseConfig } from '../lib/envCheck'
+import { checkSupabaseConfig } from './envCheck'
 
-const supabase = createClient()
+// Lazily create Supabase client only when configuration is valid
+function getSupabase() {
+  return createClient()
+}
 
 /**
  * Get language-specific slug pattern
@@ -55,6 +58,7 @@ export async function getBlogPosts(params: BlogListParams = {}, language: string
     return items.slice(offset, offset + limit)
   }
 
+  const supabase = getSupabase()
   let query = supabase
     .from('blogs')
     .select('*')
@@ -104,6 +108,7 @@ export async function getBlogPostBySlug(slug: string, language: string = 'en') {
     return SAMPLE_BLOGS.find(b => b.slug.includes(pattern)) || null
   }
   // First try to get the exact slug
+  const supabase = getSupabase()
   const { data, error } = await supabase
     .from('blogs')
     .select('*')
@@ -156,6 +161,7 @@ export async function getRelatedBlogPosts(currentSlug: string, tags: string[], l
       .slice(0, limit)
   }
 
+  const supabase = getSupabase()
   const { data, error } = await supabase
     .from('blogs')
     .select('*')
@@ -186,6 +192,7 @@ export async function getBlogTags(language: string = 'en') {
   // Get the language-specific slug pattern to filter posts
   const slugPattern = getLanguageSlugPattern(language)
   
+  const supabase = getSupabase()
   const { data, error } = await supabase
     .from('blogs')
     .select('tags')
@@ -209,6 +216,7 @@ export async function getBlogPostsCount() {
   if (process.env.NODE_ENV !== 'production' && !checkSupabaseConfig()) {
     return SAMPLE_BLOGS.length
   }
+  const supabase = getSupabase()
   const { count, error } = await supabase
     .from('blogs')
     .select('*', { count: 'exact', head: true })
