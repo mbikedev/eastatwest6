@@ -31,7 +31,10 @@ const CommentSection = ({ blogPostId = 'vegetarian-restaurant-brussels' }) => {
     const config = debugSupabaseConfig()
     
     if (!config.isConfigured) {
-      console.error('❌ Cannot initialize comments: Supabase not configured properly')
+      // Silent in dev to avoid noisy console when using fallbacks
+      if (process.env.NODE_ENV === 'production') {
+        console.error('❌ Cannot initialize comments: Supabase not configured properly')
+      }
       setConfigError(true)
       setLoading(false)
       setAuthLoading(false)

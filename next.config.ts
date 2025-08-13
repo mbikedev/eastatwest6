@@ -92,7 +92,8 @@ const nextConfig: NextConfig = {
     contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
     // Quality settings for different image types
     domains: [], // Add any external domains if needed
-    unoptimized: false,
+    // Disable optimizer in development to avoid 400s from _next/image on non-standard ports
+    unoptimized: process.env.NODE_ENV !== 'production',
   },
 
   // Enable compression
