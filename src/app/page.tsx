@@ -1488,9 +1488,9 @@ export default function HomePage() {
                         alt="East at West Restaurant"
                         fill
                         className="object-cover"
-                        priority
+                        loading="lazy"
                         sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 40vw"
-                        quality={75}
+                        quality={50}
                       />
                       {/* ===== RESTAURANT IMAGE OVERLAY ===== */}
                       {/* Image Gradient Overlay for Text Readability */}

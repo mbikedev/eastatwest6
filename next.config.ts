@@ -34,10 +34,11 @@ const nextConfig: NextConfig = {
           fs.mkdirSync(cssDir, { recursive: true });
         }
         
-        // Copy the file
-        if (fs.existsSync(srcCSS)) {
+        // Only copy raw CSS if no compiled CSS exists
+        // The preferred path is to run `scripts/build-css.js` before build
+        if (fs.existsSync(srcCSS) && !fs.existsSync(destCSS)) {
           fs.copyFileSync(srcCSS, destCSS);
-          console.log('✅ Deferred CSS copied to public/css/deferred-styles.css');
+          console.log('ℹ️  No compiled deferred CSS found, copied raw file to public/css/deferred-styles.css');
         }
       } catch (error) {
         console.warn('⚠️ Could not copy deferred CSS:', error instanceof Error ? error.message : String(error));
