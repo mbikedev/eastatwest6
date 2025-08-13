@@ -26,10 +26,10 @@ const Footer = () => {
       <div className="relative z-10">
         {/* Main Footer Content */}
         <div className="max-w-7xl mx-auto px-4 md:px-8 lg:px-12 py-12">
-          <div className="grid grid-cols-1 lg:grid-cols-4 gap-8 items-center">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 items-center">
             
             {/* Left Section - Logo and Brand */}
-            <section className="flex flex-col items-center lg:items-start space-y-4" aria-labelledby="restaurant-info">
+            <section className="flex flex-col items-center md:items-start space-y-4" aria-labelledby="restaurant-info">
               <div className="relative group">
                 <Image
                   src="/images/logo-tr.webp"
@@ -121,7 +121,7 @@ const Footer = () => {
             </section>
 
             {/* Right Section - Contact Information */}
-            <section className="flex flex-col items-center lg:items-end space-y-3" aria-labelledby="contact-info">
+            <section className="flex flex-col items-center md:items-end space-y-3" aria-labelledby="contact-info">
               <h2 id="contact-info" className="text-lg font-semibold mb-4" style={{ fontFamily: 'Rozha One, serif' }}>
                 {t('footer.contact', 'Contact')}
               </h2>

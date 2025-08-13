@@ -146,6 +146,9 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
+        {/* Load compiled Tailwind CSS early to ensure header/footer render correctly */}
+        <link rel="preload" href="/css/deferred-styles.css" as="style" />
+        <link rel="stylesheet" href="/css/deferred-styles.css" />
         {/* Resource hints for critical performance */}
         <link rel="dns-prefetch" href="//fonts.gstatic.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />

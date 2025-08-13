@@ -62,7 +62,7 @@ const Header = () => {
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
-            <Link href="/" className="flex items-center space-x-2 group">
+            <Link href="/" className="flex items-center space-x-2 group" aria-label="East at West Home">
               <motion.div
                 className="relative"
                 initial={{ rotate: -5 }}
@@ -77,8 +77,7 @@ const Header = () => {
                   sizes="(max-width: 640px) 28px, (max-width: 768px) 32px, 40px"
                   quality={60}
                   priority
-                  className={`transition-all duration-500 group-hover:scale-110 ${scrolled ? 'h-6 sm:h-7 md:h-8' : 'h-8 sm:h-9 md:h-10'
-                    } w-auto ${theme === 'dark'
+                  className={`transition-all duration-500 group-hover:scale-110 ${scrolled ? 'h-6 sm:h-7 md:h-8' : 'h-8 sm:h-9 md:h-10'} w-auto !min-h-[24px] ${theme === 'dark'
                       ? 'drop-shadow-[0_0_8px_rgba(251,146,60,0.4)] group-hover:drop-shadow-[0_0_12px_rgba(251,146,60,0.6)]'
                       : 'drop-shadow-[0_2px_8px_rgba(0,0,0,0.1)] group-hover:drop-shadow-[0_4px_16px_rgba(251,146,60,0.3)]'
                     }`}
