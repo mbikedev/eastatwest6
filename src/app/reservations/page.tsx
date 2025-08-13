@@ -47,10 +47,18 @@ async function sendReservationEmail({ email, guests, language, reservationData }
     const result = await response.json();
     
     if (!result.success) {
-      console.error('Failed to send email:', result.error);
+      if (process.env.NODE_ENV === 'production') {
+        console.error('Failed to send email:', result.error);
+      } else {
+        console.warn('Failed to send email (dev):', result.error);
+      }
     }
   } catch (error) {
-    console.error('Error sending email:', error);
+    if (process.env.NODE_ENV === 'production') {
+      console.error('Error sending email:', error);
+    } else {
+      console.warn('Error sending email (dev):', error);
+    }
   }
 }
 
@@ -79,10 +87,18 @@ async function sendNotificationEmails({ reservationData }: {
     const result = await response.json();
     
     if (!result.success) {
-      console.error('Failed to send notification emails:', result.error);
+      if (process.env.NODE_ENV === 'production') {
+        console.error('Failed to send notification emails:', result.error);
+      } else {
+        console.warn('Failed to send notification emails (dev):', result.error);
+      }
     }
   } catch (error) {
-    console.error('Error sending notification emails:', error);
+    if (process.env.NODE_ENV === 'production') {
+      console.error('Error sending notification emails:', error);
+    } else {
+      console.warn('Error sending notification emails (dev):', error);
+    }
   }
 }
 
@@ -170,8 +186,10 @@ export default function ReservationsPage() {
     e.preventDefault();
     setIsSubmitting(true);
     
-    // Debug Supabase configuration
-    debugSupabaseConfig();
+    // Debug Supabase configuration (only in production to avoid noisy console overlays in dev)
+    if (process.env.NODE_ENV === 'production') {
+      debugSupabaseConfig();
+    }
     
     // Run validation before submitting
     const validationResult = ReservationValidator.validate(form, t);
@@ -191,7 +209,11 @@ export default function ReservationsPage() {
     try {
       // Check if Supabase is configured
       if (!checkSupabaseConfig()) {
-        console.error('Supabase environment variables not configured');
+        if (process.env.NODE_ENV === 'production') {
+          console.error('Supabase environment variables not configured');
+        } else {
+          console.warn('Supabase env not configured (dev fallback will be used)');
+        }
         
         // Temporary fallback for testing without Supabase
         setTimeout(async () => {
