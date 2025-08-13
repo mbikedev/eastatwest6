@@ -11,13 +11,22 @@ export function checkSupabaseConfig() {
     console.error('NEXT_PUBLIC_SUPABASE_ANON_KEY is not configured');
     return false;
   }
+
+  // Treat placeholder/example values as NOT configured
+  const looksPlaceholder = (value?: string) =>
+    !!value && /placeholder|your_supabase/i.test(value);
+  if (looksPlaceholder(url) || looksPlaceholder(key)) {
+    console.warn('Supabase env appears to be placeholder/example. Using dev fallbacks.');
+    return false;
+  }
   
   if (!url.startsWith('https://')) {
     console.error('NEXT_PUBLIC_SUPABASE_URL should start with https://');
     return false;
   }
   
-  if (key.length < 20) {
+  // Real anon keys are long JWT-like strings; require a higher threshold
+  if (key.length < 40) {
     console.error('NEXT_PUBLIC_SUPABASE_ANON_KEY appears to be invalid (too short)');
     return false;
   }
