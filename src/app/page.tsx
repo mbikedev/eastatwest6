@@ -646,6 +646,7 @@ export default function HomePage() {
                       sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, (max-width: 1024px) 25vw, 20vw"
                       loading="lazy"
                       quality={70}
+                      unoptimized
                     />
                     {/* ===== IMAGE OVERLAY ===== */}
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent"></div>
@@ -693,6 +694,7 @@ export default function HomePage() {
                       sizes="(max-width: 640px) 320px, (max-width: 768px) 280px, (max-width: 1024px) 240px, 200px"
                       loading="lazy"
                       quality={55}
+                      unoptimized
                     />
                     {/* ===== IMAGE OVERLAY ===== */}
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent"></div>
@@ -740,6 +742,7 @@ export default function HomePage() {
                       sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, (max-width: 1024px) 25vw, 20vw"
                       loading="lazy"
                       quality={70}
+                      unoptimized
                     />
                     {/* ===== IMAGE OVERLAY ===== */}
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent"></div>
@@ -787,6 +790,7 @@ export default function HomePage() {
                       sizes="(max-width: 640px) 320px, (max-width: 768px) 280px, (max-width: 1024px) 240px, 200px"
                       loading="lazy"
                       quality={55}
+                      unoptimized
                     />
                     {/* ===== IMAGE OVERLAY ===== */}
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent"></div>
@@ -819,7 +823,7 @@ export default function HomePage() {
               {/* ===== CTA BUTTON SECTION ===== */}
               <motion.div className="text-center mt-8 sm:mt-12" variants={itemVariants}>
                 <Link
-                  href="/pdfs/allmenus.pdf"
+                  href="/pdfs/menus.pdf"
                   target="_blank"
                   rel="noopener noreferrer"
                   prefetch={false}
@@ -1220,6 +1224,7 @@ export default function HomePage() {
                           height={200}
                           className="h-full w-auto object-contain rounded-lg shadow-lg hover:shadow-xl transition-all duration-300"
                           priority={false}
+                          unoptimized
                         />
                       </div>
                     </a>
@@ -1252,6 +1257,7 @@ export default function HomePage() {
                           height={200}
                           className="h-full w-auto object-contain rounded-lg shadow-lg hover:shadow-xl transition-all duration-300"
                           priority={false}
+                          unoptimized
                         />
                       </div>
                     </a>
@@ -1491,6 +1497,7 @@ export default function HomePage() {
                         loading="lazy"
                         sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 40vw"
                         quality={50}
+                        unoptimized
                       />
                       {/* ===== RESTAURANT IMAGE OVERLAY ===== */}
                       {/* Image Gradient Overlay for Text Readability */}
