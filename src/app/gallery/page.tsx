@@ -51,7 +51,8 @@ const Lightbox = ({ image, isOpen, onClose, title, description }: {
             width={800}
             height={600}
             className="w-full h-auto max-h-[80vh] object-contain rounded-lg"
-            quality={90}
+            quality={75}
+            sizes="(max-width: 640px) 90vw, (max-width: 1024px) 80vw, 800px"
           />
           <button
             onClick={onClose}
@@ -346,8 +347,8 @@ export default function GalleryPage() {
                       alt={details.title}
                       fill
                       className="object-cover transition-transform duration-700 group-hover:scale-110"
-                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, (max-width: 1280px) 33vw, 25vw"
-                      quality={75}
+                      sizes="(max-width: 640px) 320px, (max-width: 1024px) 280px, (max-width: 1280px) 240px, 200px"
+                      quality={50}
                     />
                     
                     {/* Gradient overlay */}

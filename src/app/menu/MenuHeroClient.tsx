@@ -22,7 +22,7 @@ export default function MenuHeroClient() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
 
       <section className="relative w-full min-h-[60vh] sm:min-h-[70vh] lg:min-h-[75vh] flex items-center justify-center overflow-hidden">
-        <Image src="/images/banner.webp" alt={t('menu.heroAlt')} fill priority className="object-cover" />
+        <Image src="/images/banner.webp" alt={t('menu.heroAlt')} fill priority className="object-cover" quality={50} sizes="100vw" />
         <div className="absolute inset-0 bg-black/40" />
 
         <div className="relative z-10 max-w-4xl w-full px-4 sm:px-6 lg:px-8 text-center">

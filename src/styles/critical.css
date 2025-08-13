@@ -141,10 +141,33 @@ body {
   margin-left: auto;
   margin-right: auto;
   font-weight: 300;
-  line-height: 1.625;
+  font-family: system-ui, -apple-system, sans-serif !important;
+  contain: layout style paint;
+  will-change: auto;
 }
 
 @media (min-width: 640px) {
+  .lcp-text {
+    font-size: 1.5rem;
+    line-height: 2rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .lcp-text {
+    font-size: 1.125rem;
+    line-height: 1.75rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .lcp-text {
+    font-size: 1.25rem;
+    line-height: 1.875rem;
+  }
+}
+
+@media (min-width: 1280px) {
   .lcp-text {
     font-size: 1.5rem;
     line-height: 2rem;

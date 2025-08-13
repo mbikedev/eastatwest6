@@ -1,6 +1,7 @@
+/* Deferred styles - loaded asynchronously after first paint */
 @import "tailwindcss";
 
-/* Critical styles are inlined, this is for Tailwind and remaining styles */
+/* Non-critical styles that were in globals.css */
 
 @layer base {
   html,

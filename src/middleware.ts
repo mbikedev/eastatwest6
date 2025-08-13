@@ -1,5 +1,6 @@
 import { createServerClient } from '@supabase/ssr'
 import { NextResponse, type NextRequest } from 'next/server'
+import { generateCacheHeaders } from './utils/cache-policies'
 
 export async function middleware(request: NextRequest) {
   let supabaseResponse = NextResponse.next({
@@ -54,22 +55,71 @@ export async function middleware(request: NextRequest) {
   // Add compression and optimization headers
   const response = supabaseResponse
   
-  // Enable compression for all text-based content
-  if (request.headers.get('accept-encoding')?.includes('gzip')) {
-    response.headers.set('Vary', 'Accept-Encoding')
+  // Check for Brotli support first, then gzip
+  const acceptEncoding = request.headers.get('accept-encoding') || ''
+  const supportsBrotli = acceptEncoding.includes('br')
+  const supportsGzip = acceptEncoding.includes('gzip')
+  
+  // Always set Vary header for compression
+  response.headers.set('Vary', 'Accept-Encoding')
+  
+  // Handle RSC (React Server Components) requests with compression
+  if (request.nextUrl.search.includes('_rsc=')) {
+    response.headers.set('Cache-Control', 'private, no-cache, no-store, max-age=0, must-revalidate')
+    
+    // Prefer Brotli over gzip for RSC payloads
+    if (supportsBrotli) {
+      response.headers.set('Content-Encoding', 'br')
+    } else if (supportsGzip) {
+      response.headers.set('Content-Encoding', 'gzip')
+    }
   }
   
-  // Add specific headers for PDF files to enable compression
-  if (request.nextUrl.pathname.endsWith('.pdf')) {
-    response.headers.set('Cache-Control', 'public, max-age=31536000, immutable')
+  // Apply cache policies using centralized configuration
+  const pathname = request.nextUrl.pathname;
+  const cacheHeaders = generateCacheHeaders(pathname);
+  
+  // Apply cache headers if applicable
+  Object.entries(cacheHeaders).forEach(([key, value]) => {
+    response.headers.set(key, value);
+  });
+  
+  // Add compression for cacheable static assets
+  if (Object.keys(cacheHeaders).length > 0) {
+    if (supportsBrotli) {
+      response.headers.set('Content-Encoding', 'br')
+    } else if (supportsGzip) {
+      response.headers.set('Content-Encoding', 'gzip')
+    }
+    
+    // Special tag for Restaurant Guru assets (performance audit target)
+    if (pathname.startsWith('/assets/restaurant-guru/')) {
+      response.headers.set('X-Cache-Tag', 'restaurant-guru-immutable')
+      response.headers.set('X-Performance-Optimized', 'cache-policy-updated')
+    }
   }
   
-  // Add compression-friendly headers for HTML pages
+  // Enhanced compression headers for problematic pages
   if (request.nextUrl.pathname.includes('gallery') || 
       request.nextUrl.pathname.includes('reservations') ||
       request.nextUrl.pathname.includes('menu')) {
     response.headers.set('Cache-Control', 'public, max-age=300')
-    response.headers.set('Vary', 'Accept-Encoding')
+    
+    // Force compression for these large pages
+    if (supportsBrotli) {
+      response.headers.set('Content-Encoding', 'br')
+    } else if (supportsGzip) {
+      response.headers.set('Content-Encoding', 'gzip')
+    }
+  }
+  
+  // Add compression for API responses
+  if (request.nextUrl.pathname.startsWith('/api/')) {
+    if (supportsBrotli) {
+      response.headers.set('Content-Encoding', 'br')
+    } else if (supportsGzip) {
+      response.headers.set('Content-Encoding', 'gzip')
+    }
   }
 
   return response

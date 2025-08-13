@@ -34,10 +34,10 @@ const Footer = () => {
                 <Image
                   src="/images/logo-tr.webp"
                   alt="East at West - Authentic Lebanese Restaurant in Brussels"
-                  width={180}
-                  height={60}
-                  sizes="(max-width: 640px) 120px, (max-width: 768px) 150px, 180px"
-                  quality={60}
+                  width={120}
+                  height={40}
+                  sizes="(max-width: 640px) 96px, (max-width: 768px) 108px, 120px"
+                  quality={50}
                   className={`h-12 w-auto transition-all duration-500 group-hover:scale-110 ${
                     theme === 'dark' 
                       ? 'drop-shadow-[0_0_8px_rgba(255,255,255,0.3)]' 

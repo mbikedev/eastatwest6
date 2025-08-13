@@ -2,8 +2,55 @@
 
 import { useEffect, useState } from 'react'
 
-// Ultra-minimal critical CSS - only absolute essentials for first paint
-const ultraCriticalCSS = `*,::before,::after{box-sizing:border-box}html,body{margin:0;padding:0}body{font-family:system-ui,-apple-system,sans-serif}:root{--bg:#fff;--fg:#000}@media(prefers-color-scheme:dark){:root{--bg:#000;--fg:#fff}}body{background:var(--bg);color:var(--fg)}.min-h-screen{min-height:100vh}.flex{display:flex}.flex-col{flex-direction:column}.items-center{align-items:center}.justify-center{justify-content:center}.relative{position:relative}.absolute{position:absolute}.fixed{position:fixed}.inset-0{top:0;right:0;bottom:0;left:0}.z-20{z-index:20}.z-50{z-index:50}.w-full{width:100%}.h-screen{height:100vh}.text-center{text-align:center}.font-black{font-weight:900}.lcp-text{opacity:1!important;transform:none!important;font-size:1.25rem;color:rgba(245,241,236,0.9);margin:2.5rem auto;max-width:48rem;font-weight:300}@media(min-width:640px){.lcp-text{font-size:1.5rem}}`
+// Enhanced critical CSS for above-the-fold content - eliminates render blocking
+const ultraCriticalCSS = `
+/* Reset and base */
+*,::before,::after{box-sizing:border-box;border-width:0;border-style:solid}
+html{line-height:1.5;-webkit-text-size-adjust:100%;tab-size:4;font-family:ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif}
+body{margin:0;line-height:inherit;background:var(--bg,#fff);color:var(--fg,#000)}
+:root{--bg:#fff;--fg:#000}@media(prefers-color-scheme:dark){:root{--bg:#0a0a0a;--fg:#ededed}}
+
+/* Critical layout */
+.min-h-screen{min-height:100vh}.h-screen{height:100vh}.w-full{width:100%}.h-full{height:100%}
+.flex{display:flex}.flex-col{flex-direction:column}.items-center{align-items:center}.justify-center{justify-content:center}
+.relative{position:relative}.absolute{position:absolute}.fixed{position:fixed}.inset-0{inset:0}
+.z-10{z-index:10}.z-20{z-index:20}.z-50{z-index:50}
+
+/* Critical typography */
+.text-center{text-align:center}.font-black{font-weight:900}.font-bold{font-weight:700}.font-light{font-weight:300}
+.text-sm{font-size:0.875rem;line-height:1.25rem}.text-base{font-size:1rem;line-height:1.5rem}
+.text-lg{font-size:1.125rem;line-height:1.75rem}.text-xl{font-size:1.25rem;line-height:1.75rem}
+.text-2xl{font-size:1.5rem;line-height:2rem}.text-3xl{font-size:1.875rem;line-height:2.25rem}
+.text-4xl{font-size:2.25rem;line-height:2.5rem}.text-5xl{font-size:3rem;line-height:1}
+.text-6xl{font-size:3.75rem;line-height:1}.text-7xl{font-size:4.5rem;line-height:1}.text-8xl{font-size:6rem;line-height:1}
+
+/* Critical spacing */
+.p-4{padding:1rem}.px-4{padding:0 1rem}.px-6{padding:0 1.5rem}.px-8{padding:0 2rem}
+.py-3{padding:0.75rem 0}.py-4{padding:1rem 0}.py-5{padding:1.25rem 0}
+.mb-2{margin-bottom:0.5rem}.mb-4{margin-bottom:1rem}.mb-6{margin-bottom:1.5rem}
+.mb-8{margin-bottom:2rem}.mb-10{margin-bottom:2.5rem}.mx-auto{margin:0 auto}
+
+/* Critical colors */
+.text-white{color:#fff}.bg-black{background-color:#000}.bg-white{background-color:#fff}
+
+/* Critical effects */
+.shadow-2xl{box-shadow:0 25px 50px -12px rgba(0,0,0,0.25)}
+.rounded-xl{border-radius:0.75rem}.rounded-2xl{border-radius:1rem}
+.transition-all{transition:all 0.15s cubic-bezier(0.4,0,0.2,1)}.duration-300{transition-duration:0.3s}
+
+/* LCP text - CRITICAL for performance */
+.lcp-text{opacity:1!important;transform:none!important;font-size:1.25rem;line-height:1.75rem;color:rgba(245,241,236,0.9);margin-bottom:2.5rem;max-width:48rem;margin-left:auto;margin-right:auto;font-weight:300;font-family:system-ui,-apple-system,sans-serif!important;contain:layout style paint;will-change:auto}
+
+/* Critical header styles */
+.header-bg{background:rgba(92,67,0,0.9);backdrop-filter:blur(12px)}
+
+/* Responsive breakpoints */
+@media(min-width:640px){.sm\\:text-lg{font-size:1.125rem;line-height:1.75rem}.sm\\:text-6xl{font-size:3.75rem;line-height:1}.sm\\:text-8xl{font-size:6rem;line-height:1}.sm\\:mb-6{margin-bottom:1.5rem}.sm\\:mb-8{margin-bottom:2rem}.sm\\:px-6{padding-left:1.5rem;padding-right:1.5rem}.sm\\:py-3{padding-top:0.75rem;padding-bottom:0.75rem}.sm\\:flex-row{flex-direction:row}.lcp-text{font-size:1.5rem;line-height:2rem}}
+@media(min-width:768px){.md\\:text-xl{font-size:1.25rem;line-height:1.75rem}.md\\:text-5xl{font-size:3rem;line-height:1}.md\\:text-7xl{font-size:4.5rem;line-height:1}.md\\:mb-10{margin-bottom:2.5rem}.md\\:px-8{padding-left:2rem;padding-right:2rem}.md\\:py-4{padding-top:1rem;padding-bottom:1rem}.lcp-text{font-size:1.125rem;line-height:1.75rem}}
+@media(min-width:1024px){.lg\\:text-2xl{font-size:1.5rem;line-height:2rem}.lg\\:text-7xl{font-size:4.5rem;line-height:1}.lg\\:px-8{padding-left:2rem;padding-right:2rem}.lg\\:px-10{padding-left:2.5rem;padding-right:2.5rem}.lg\\:py-5{padding-top:1.25rem;padding-bottom:1.25rem}.lcp-text{font-size:1.25rem;line-height:1.875rem}}
+@media(min-width:1280px){.xl\\:text-7xl{font-size:4.5rem;line-height:1}.xl\\:text-8xl{font-size:6rem;line-height:1}.lcp-text{font-size:1.5rem;line-height:2rem}}
+@media(min-width:1536px){.\\32xl\\:text-8xl{font-size:6rem;line-height:1}}
+`
 
 // All non-critical CSS that will be loaded asynchronously
 const nonCriticalCSS = `
@@ -136,16 +183,29 @@ export default function ZeroCSSBlocking() {
   const [isLoaded, setIsLoaded] = useState(false)
 
   useEffect(() => {
-    // Immediately inject ultra-critical CSS for first paint
-    const criticalStyle = document.createElement('style')
-    criticalStyle.textContent = ultraCriticalCSS
-    criticalStyle.setAttribute('data-critical', 'true')
-    document.head.insertBefore(criticalStyle, document.head.firstChild)
-
-    // Load non-critical CSS after first paint
-    const loadNonCriticalCSS = () => {
+    // Load the full Tailwind CSS asynchronously after first paint
+    const loadFullCSS = () => {
       if (isLoaded) return
       
+      // Load the main stylesheet asynchronously
+      const mainStylesheet = document.createElement('link')
+      mainStylesheet.rel = 'stylesheet'
+      mainStylesheet.href = '/css/deferred-styles.css' // Will be created by build process
+      mainStylesheet.media = 'print' // Load as non-render-blocking
+      mainStylesheet.onload = () => {
+        mainStylesheet.media = 'all' // Switch to all media once loaded
+      }
+      
+      // Fallback for browsers that don't support onload
+      setTimeout(() => {
+        if (mainStylesheet.media === 'print') {
+          mainStylesheet.media = 'all'
+        }
+      }, 3000)
+      
+      document.head.appendChild(mainStylesheet)
+      
+      // Also load non-critical inline styles
       const nonCriticalStyle = document.createElement('style')
       nonCriticalStyle.textContent = nonCriticalCSS
       nonCriticalStyle.setAttribute('data-non-critical', 'true')
@@ -154,19 +214,31 @@ export default function ZeroCSSBlocking() {
       setIsLoaded(true)
     }
 
-    // Use requestIdleCallback for non-critical CSS if available
-    if ('requestIdleCallback' in window) {
-      requestIdleCallback(loadNonCriticalCSS, { timeout: 100 })
-    } else {
-      setTimeout(loadNonCriticalCSS, 50)
+    // Strategy: Load after first paint is complete
+    // 1. Use requestIdleCallback for optimal timing
+    // 2. Use interaction-based loading as fallback
+    // 3. Use timer as final fallback
+    
+    let loaded = false
+    const executeLoad = () => {
+      if (loaded) return
+      loaded = true
+      loadFullCSS()
     }
 
-    // Also load on user interaction
-    const events = ['mousedown', 'touchstart', 'keydown', 'scroll']
+    // Primary: Use requestIdleCallback for ideal timing
+    if ('requestIdleCallback' in window) {
+      requestIdleCallback(executeLoad, { timeout: 100 })
+    } else {
+      setTimeout(executeLoad, 50)
+    }
+
+    // Secondary: Load on first user interaction
+    const events = ['mousedown', 'touchstart', 'keydown', 'scroll', 'wheel']
     const handleInteraction = () => {
-      loadNonCriticalCSS()
+      executeLoad()
       events.forEach(event => {
-        document.removeEventListener(event, handleInteraction)
+        document.removeEventListener(event, handleInteraction, { passive: true } as AddEventListenerOptions)
       })
     }
 
@@ -174,7 +246,11 @@ export default function ZeroCSSBlocking() {
       document.addEventListener(event, handleInteraction, { passive: true } as AddEventListenerOptions)
     })
 
+    // Tertiary: Ensure loading happens within reasonable time
+    const fallbackTimer = setTimeout(executeLoad, 1000)
+
     return () => {
+      clearTimeout(fallbackTimer)
       events.forEach(event => {
         document.removeEventListener(event, handleInteraction)
       })

@@ -436,9 +436,9 @@ export default function HomePage() {
               </motion.h1>
 
               {/* ===== HERO DESCRIPTION SECTION ===== */}
-              {/* Hero Subtitle/Description Text */}
+              {/* Hero Subtitle/Description Text - LCP Optimized */}
               <p
-                className="lcp-text font-rozha text-sm xs:text-base sm:text-lg md:text-xl lg:text-2xl text-[rgb(255,255,255)]/90 mb-6 sm:mb-8 md:mb-10 max-w-3xl mx-auto"
+                className="lcp-text text-sm xs:text-base sm:text-lg md:text-xl lg:text-2xl text-[rgb(255,255,255)]/90 mb-6 sm:mb-8 md:mb-10 max-w-3xl mx-auto"
                 style={{ backgroundColor: 'rgba(42, 37, 37, 0.24)' }}
               >
                 {t("hero.description")}
@@ -690,9 +690,9 @@ export default function HomePage() {
                       alt={t('specials.items.falafel.description')}
                       fill
                       className="object-cover transition-transform duration-500 group-hover:scale-110"
-                      sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, (max-width: 1024px) 25vw, 20vw"
+                      sizes="(max-width: 640px) 320px, (max-width: 768px) 280px, (max-width: 1024px) 240px, 200px"
                       loading="lazy"
-                      quality={70}
+                      quality={55}
                     />
                     {/* ===== IMAGE OVERLAY ===== */}
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent"></div>
@@ -784,9 +784,9 @@ export default function HomePage() {
                       alt={t('specials.items.aishElSaraya.description')}
                       fill
                       className="object-cover transition-transform duration-500 group-hover:scale-110"
-                      sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, (max-width: 1024px) 25vw, 20vw"
+                      sizes="(max-width: 640px) 320px, (max-width: 768px) 280px, (max-width: 1024px) 240px, 200px"
                       loading="lazy"
-                      quality={70}
+                      quality={55}
                     />
                     {/* ===== IMAGE OVERLAY ===== */}
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent"></div>
@@ -1005,21 +1005,39 @@ export default function HomePage() {
               {/* ===== PARALLAX BACKGROUND SECTION ===== */}
               {/* Parallax Background Image Container */}
               <div className="absolute inset-0 w-full h-full">
-                {/* ===== DESKTOP PARALLAX BACKGROUND ===== */}
-                {/* Desktop Parallax Background Image */}
-                <div
-                  className="absolute inset-0 w-full h-full bg-cover bg-center bg-fixed hidden md:block"
-                  style={{
-                    backgroundImage: `url('/images/parallax-image.webp')`
+                {/* ===== OPTIMIZED PARALLAX BACKGROUND ===== */}
+                {/* Next.js Image with lazy loading and optimization */}
+                <Image
+                  src="/images/parallax-image.webp"
+                  alt="East at West Restaurant Parallax Background"
+                  fill
+                  className="object-cover hidden md:block"
+                  style={{ 
+                    position: 'fixed',
+                    top: 0,
+                    left: 0,
+                    width: '100%',
+                    height: '100%',
+                    zIndex: -1
                   }}
+                  sizes="100vw"
+                  quality={45}
+                  loading="lazy"
+                  placeholder="blur"
+                  blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bvdNvvuMcPl3sGRw=="
                 />
                 {/* ===== MOBILE PARALLAX BACKGROUND ===== */}
-                {/* Static Background for Mobile Devices */}
-                <div
-                  className="absolute inset-0 w-full h-full bg-cover bg-center block md:hidden"
-                  style={{
-                    backgroundImage: `url('/images/parallax-image.webp')`
-                  }}
+                {/* Mobile optimized background */}
+                <Image
+                  src="/images/parallax-image.webp"
+                  alt="East at West Restaurant Mobile Background"
+                  fill
+                  className="object-cover block md:hidden"
+                  sizes="100vw"
+                  quality={40}
+                  loading="lazy"
+                  placeholder="blur"
+                  blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bvdNvvuMcPl3sGRw=="
                 />
 
                 {/* ===== PARALLAX OVERLAY ===== */}

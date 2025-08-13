@@ -283,9 +283,9 @@ export default function BlogPage() {
                         alt={featuredPost.title}
                         fill
                         className="object-cover transition-transform duration-700 hover:scale-110"
-                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 60vw"
+                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 600px, 480px"
                         priority
-                        quality={75}
+                        quality={65}
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
                       <div className="absolute top-4 left-4">
@@ -346,9 +346,9 @@ export default function BlogPage() {
                             alt={blog.title}
                             fill
                             className="object-cover transition-transform duration-500 hover:scale-110"
-                            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                            sizes="(max-width: 768px) 320px, (max-width: 1200px) 280px, 240px"
                             loading="lazy"
-                            quality={70}
+                            quality={55}
                           />
                           <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
                           {blog.tags && blog.tags.length > 0 && (

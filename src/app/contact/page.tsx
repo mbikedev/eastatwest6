@@ -213,9 +213,9 @@ export default function ContactPage() {
                   alt="East at West Restaurant"
                   fill
                   className="object-cover"
-                  priority
+                  loading="lazy"
                   sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 40vw"
-                  quality={75}
+                  quality={50}
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
                 <div className="absolute bottom-8 left-8 right-8 text-white text-center lg:text-left">

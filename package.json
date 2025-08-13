@@ -4,16 +4,21 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "node scripts/build-css.js && next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "test:compression": "node scripts/test-compression.js",
+    "test:cache": "node scripts/test-cache-policies.js",
+    "test:render-blocking": "node scripts/check-render-blocking.js",
+    "test:images": "node scripts/test-image-sizes.js",
+    "test:payloads": "node scripts/test-network-payloads.js",
+    "build:css": "node scripts/build-css.js"
   },
   "dependencies": {
     "@stripe/react-stripe-js": "^3.9.0",
     "@stripe/stripe-js": "^7.8.0",
     "@supabase/ssr": "^0.6.1",
     "@supabase/supabase-js": "^2.50.2",
-    "@tailwindcss/postcss": "^4.1.11",
     "autoprefixer": "^10.4.21",
     "compression": "^1.8.1",
     "framer-motion": "^12.23.0",
@@ -30,6 +35,7 @@
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
+    "@tailwindcss/postcss": "^4.1.11",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/tailwindcss": "^3.0.11",
@@ -39,31 +45,14 @@
     "tailwindcss": "^4.1.11"
   },
   "sideEffects": false,
-  "browserslist": {
-    "production": [
-      "Chrome >= 90",
-      "Firefox >= 88",
-      "Safari >= 14.1",
-      "Edge >= 90",
-      "> 0.25%",
-      "last 2 versions",
-      "not dead",
-      "not IE 11",
-      "not op_mini all"
-    ],
-    "modern": [
-      "Chrome >= 95",
-      "Firefox >= 95",
-      "Safari >= 15",
-      "Edge >= 95",
-      "> 1%",
-      "last 1 version",
-      "not dead"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
-  }
+  "browserslist": [
+    "Chrome >= 95",
+    "Firefox >= 95",
+    "Safari >= 15",
+    "Edge >= 95",
+    "> 1%",
+    "not dead",
+    "not IE 11",
+    "not op_mini all"
+  ]
 }

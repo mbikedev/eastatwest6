@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Inter, Roboto, Rozha_One } from "next/font/google";
-import "./globals.css";
+// import "./globals.css"; // REMOVED: Render-blocking CSS moved to deferred loading
 import ZeroCSSBlocking, { ultraCriticalCSS } from '../components/ZeroCSSBlocking';
 import { ThemeProvider } from "../context/ThemeContext";
 import { LightboxProvider } from "../context/LightboxContext";
@@ -33,7 +33,7 @@ const roboto = Roboto({
 const rozhaOne = Rozha_One({ 
   weight: '400',
   subsets: ["latin"],
-  display: 'swap',
+  display: 'block',
   preload: true,
   variable: '--font-rozha-one',
 });
@@ -146,9 +146,12 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
-        {/* Resource hints removed - no longer using external fonts */}
-
+        {/* Resource hints for critical performance */}
+        <link rel="dns-prefetch" href="//fonts.gstatic.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
+        
         {/* Critical fonts are now loaded via Next.js font optimization */}
+        {/* LCP element uses system fonts to avoid render blocking */}
         
         {/* Hreflang and canonical URLs for international SEO */}
         <link rel="canonical" href="https://eastatwest.com" />

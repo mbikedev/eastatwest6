@@ -11,14 +11,61 @@ const HeroVideo = () => {
   const { theme } = useTheme();
   const [isMuted, setIsMuted] = useState(true);
   const [isVideoLoaded, setIsVideoLoaded] = useState(false);
+  const [shouldLoadVideo, setShouldLoadVideo] = useState(false);
+  const [userInteracted, setUserInteracted] = useState(false);
   const videoRef = useRef(null);
+  const containerRef = useRef(null);
+
+  // Intersection Observer to detect when video comes into view
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            // Only load video when it's visible or user has interacted
+            setShouldLoadVideo(true);
+          }
+        });
+      },
+      { threshold: 0.1 }
+    );
+
+    if (containerRef.current) {
+      observer.observe(containerRef.current);
+    }
+
+    return () => {
+      if (containerRef.current) {
+        observer.unobserve(containerRef.current);
+      }
+    };
+  }, []);
+
+  // Handle user interaction to trigger video loading
+  useEffect(() => {
+    const handleUserInteraction = () => {
+      setUserInteracted(true);
+      setShouldLoadVideo(true);
+    };
+
+    // Listen for any user interaction
+    document.addEventListener('click', handleUserInteraction, { once: true });
+    document.addEventListener('scroll', handleUserInteraction, { once: true });
+    document.addEventListener('touchstart', handleUserInteraction, { once: true });
+
+    return () => {
+      document.removeEventListener('click', handleUserInteraction);
+      document.removeEventListener('scroll', handleUserInteraction);
+      document.removeEventListener('touchstart', handleUserInteraction);
+    };
+  }, []);
 
   useEffect(() => {
     const video = videoRef.current;
-    if (video) {
+    if (video && shouldLoadVideo) {
       video.muted = isMuted;
 
-      // Ensure video plays automatically
+      // Ensure video plays automatically only after loading
       const playVideo = async () => {
         try {
           console.log("Attempting to play video...");
@@ -39,7 +86,7 @@ const HeroVideo = () => {
         video.removeEventListener("canplaythrough", playVideo);
       };
     }
-  }, [isMuted]);
+  }, [isMuted, shouldLoadVideo]);
 
   const toggleMute = () => {
     setIsMuted(!isMuted);
@@ -64,38 +111,66 @@ const HeroVideo = () => {
   };
 
   return (
-    <section className="relative h-screen w-full overflow-hidden">
-      {/* Video Background */}
+    <section ref={containerRef} className="relative h-screen w-full overflow-hidden">
+      {/* Video Background - Only load when necessary */}
       <div className="absolute inset-0 w-full h-full">
-        <video
-          ref={videoRef}
-          className="absolute inset-0 w-full h-full object-cover z-10"
-          autoPlay
-          loop
-          muted={isMuted}
-          playsInline
-          preload="metadata"
-          onLoadedData={handleVideoLoad}
-          onCanPlay={handleVideoCanPlay}
-          onError={handleVideoError}
-          poster="/images/banner.webp"
-        >
-          <source src="/videos/hero-video.mp4" type="video/mp4" />
-          <source src="/videos/hero-video.webm" type="video/webm" />
-          {/* Fallback image */}
-          Your browser does not support the video tag.
-        </video>
+        {shouldLoadVideo ? (
+          <video
+            ref={videoRef}
+            className="absolute inset-0 w-full h-full object-cover z-10"
+            autoPlay
+            loop
+            muted={isMuted}
+            playsInline
+            preload="metadata"
+            onLoadedData={handleVideoLoad}
+            onCanPlay={handleVideoCanPlay}
+            onError={handleVideoError}
+            poster="/images/banner.webp"
+          >
+            <source src="/videos/hero-video.mp4" type="video/mp4" />
+            <source src="/videos/hero-video.webm" type="video/webm" />
+            {/* Fallback image */}
+            Your browser does not support the video tag.
+          </video>
+        ) : (
+          // Show poster image with play button until video loads
+          <div className="absolute inset-0 w-full h-full">
+            <img
+              src="/images/banner.webp"
+              alt="East at West Restaurant"
+              className="absolute inset-0 w-full h-full object-cover z-10"
+            />
+            {/* Play button overlay to trigger video loading */}
+            <button
+              onClick={() => setShouldLoadVideo(true)}
+              className="absolute inset-0 z-20 flex items-center justify-center bg-black/20 hover:bg-black/30 transition-colors duration-300 group"
+              aria-label="Play video"
+            >
+              <div className="bg-white/90 rounded-full p-4 group-hover:bg-white group-hover:scale-110 transition-all duration-300">
+                <svg
+                  className="w-12 h-12 text-gray-900 ml-1"
+                  fill="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path d="M8 5v14l11-7z" />
+                </svg>
+              </div>
+            </button>
+          </div>
+        )}
 
         {/* Lighter Video Overlay for text readability */}
         <div className="absolute inset-0 bg-black bg-opacity-0.1 z-8"></div>
       </div>
 
-      {/* Mute/Unmute Toggle */}
-      <button
-        onClick={toggleMute}
-        className="absolute top-4 right-4 z-30 p-3 rounded-full bg-black bg-opacity-50 text-white hover:bg-opacity-70 transition-all duration-300"
-        aria-label={isMuted ? "Unmute video" : "Mute video"}
-      >
+      {/* Mute/Unmute Toggle - Only show when video is loaded */}
+      {shouldLoadVideo && (
+        <button
+          onClick={toggleMute}
+          className="absolute top-4 right-4 z-30 p-3 rounded-full bg-black bg-opacity-50 text-white hover:bg-opacity-70 transition-all duration-300"
+          aria-label={isMuted ? "Unmute video" : "Mute video"}
+        >
         {isMuted ? (
           <svg
             className="w-6 h-6"
@@ -131,7 +206,8 @@ const HeroVideo = () => {
             />
           </svg>
         )}
-      </button>
+        </button>
+      )}
 
       {/* Hero Content Overlay */}
       <div className="absolute inset-0 flex items-center justify-center z-20">
@@ -201,8 +277,8 @@ const HeroVideo = () => {
         </div>
       </motion.div>
 
-      {/* Loading Overlay */}
-      {!isVideoLoaded && (
+      {/* Loading Overlay - Only show when video is loading */}
+      {shouldLoadVideo && !isVideoLoaded && (
         <div className="absolute inset-0 bg-gray-900 flex items-center justify-center z-10">
           <div className="text-white text-center">
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-orange-500 mx-auto mb-4"></div>
