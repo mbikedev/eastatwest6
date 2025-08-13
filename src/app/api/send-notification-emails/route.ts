@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { Resend } from 'resend';
+import { sendEmail } from '@/lib/email';
 
 export async function POST(req: NextRequest) {
   try {
@@ -9,16 +9,6 @@ export async function POST(req: NextRequest) {
       return NextResponse.json(
         { success: false, error: 'Missing reservation data' },
         { status: 400 }
-      );
-    }
-
-    const resend = new Resend(process.env.RESEND_API_KEY);
-
-    if (!process.env.RESEND_API_KEY) {
-      console.error('RESEND_API_KEY is not configured');
-      return NextResponse.json(
-        { success: false, error: 'Email service not configured' },
-        { status: 500 }
       );
     }
 
@@ -167,8 +157,8 @@ Bld de l'Empereur 26, 1000 Brussels, Belgium
 
     // Send emails to all notification addresses
     const emailPromises = notificationEmails.map(email => 
-      resend.emails.send({
-        from: process.env.RESEND_FROM_EMAIL || 'contact@eastatwest.com',
+      sendEmail({
+        from: process.env.RESEND_FROM_EMAIL || process.env.SMTP_FROM_EMAIL || 'contact@eastatwest.com',
         to: email,
         subject,
         text: emailText,
@@ -188,34 +178,13 @@ Bld de l'Empereur 26, 1000 Brussels, Belgium
     // Log results
     results.forEach((result, index) => {
       if (result.status === 'fulfilled') {
-        const payload: any = result.value;
-        if (payload?.error) {
-          if (process.env.NODE_ENV !== 'production') {
-            console.warn(`Resend dev error for ${notificationEmails[index]} (pretend success):`, payload.error);
-          } else {
-            console.error(`Resend error for ${notificationEmails[index]}:`, payload.error);
-          }
-        } else {
-          console.log(`Notification email sent successfully to ${notificationEmails[index]}:`, payload);
-        }
+        console.log(`Notification email sent to ${notificationEmails[index]}`);
       } else {
-        if (process.env.NODE_ENV !== 'production') {
-          console.warn(`Failed to send notification email in dev (pretend success) to ${notificationEmails[index]}:`, result.reason);
-        } else {
-          console.error(`Failed to send notification email to ${notificationEmails[index]}:`, result.reason);
-        }
+        console.error(`Failed to send notification email to ${notificationEmails[index]}:`, result.reason);
       }
     });
 
-    // In dev, always return success to avoid blocking UX
-    if (process.env.NODE_ENV !== 'production') {
-      return NextResponse.json({ 
-        success: true, 
-        warning: 'Emails not actually sent in dev. Configure RESEND_API_KEY for production.'
-      });
-    }
-
-    // Return success if at least one email was sent in production
+    // Return success if at least one email was sent
     const successCount = results.filter(result => result.status === 'fulfilled').length;
     if (successCount > 0) {
       return NextResponse.json({ success: true, message: `Notification emails sent to ${successCount}/${notificationEmails.length} addresses` });

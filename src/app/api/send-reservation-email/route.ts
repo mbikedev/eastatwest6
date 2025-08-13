@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { Resend } from 'resend';
+import { sendEmail } from '@/lib/email';
 import fs from 'fs';
 import path from 'path';
 
@@ -67,18 +67,8 @@ export async function POST(req: NextRequest) {
       statusColor = '#F59E0B';
     }
 
-    const resend = new Resend(process.env.RESEND_API_KEY);
-
-    if (!process.env.RESEND_API_KEY) {
-      console.error('RESEND_API_KEY is not configured');
-      return NextResponse.json(
-        { success: false, error: 'Email service not configured' },
-        { status: 500 }
-      );
-    }
-
-    const emailResult = await resend.emails.send({
-      from: process.env.RESEND_FROM_EMAIL || 'contact@eastatwest.com',
+    const emailResult = await sendEmail({
+      from: process.env.RESEND_FROM_EMAIL || process.env.SMTP_FROM_EMAIL || 'contact@eastatwest.com',
       to: email,
       subject,
       text: `Reservation ${statusText} - Invoice: ${finalInvoiceNumber}`,
@@ -237,23 +227,9 @@ export async function POST(req: NextRequest) {
         'Importance': 'high',
         'X-Mailer': 'East at West Restaurant'
       }
-    });
+    })
 
-    // Handle Resend response: it resolves with { data, error }
-    if ((emailResult as any)?.error) {
-      const err = (emailResult as any).error;
-      if (process.env.NODE_ENV !== 'production') {
-        console.warn('Resend email error in dev (pretending success):', err);
-        return NextResponse.json({ success: true, warning: 'Email not sent (dev). Configure RESEND_API_KEY.' });
-      }
-      console.error('Resend email error:', err);
-      return NextResponse.json(
-        { success: false, error: err?.message || 'Failed to send email' },
-        { status: 500 }
-      );
-    }
-
-    console.log('Email sent successfully:', emailResult);
+    console.log('Email sent:', emailResult);
     return NextResponse.json({ success: true });
   } catch (error) {
     console.error('Error sending email:', error);
