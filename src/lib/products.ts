@@ -1,8 +1,15 @@
 import { createClient } from './supabaseServer'
 import { Product, ProductCategory } from '../types/takeaway'
+import { SAMPLE_PRODUCTS } from './sampleProducts'
+import { checkSupabaseConfig } from './envCheck'
 
 // Fetch all products
 export async function getProducts(): Promise<Product[]> {
+  // Fallback to sample data in development if Supabase is not configured
+  if (process.env.NODE_ENV !== 'production' && !checkSupabaseConfig()) {
+    return SAMPLE_PRODUCTS
+  }
+
   const supabase = await createClient()
   const { data, error } = await supabase
     .from('products')
@@ -20,6 +27,10 @@ export async function getProducts(): Promise<Product[]> {
 
 // Fetch products by category
 export async function getProductsByCategory(category: ProductCategory): Promise<Product[]> {
+  if (process.env.NODE_ENV !== 'production' && !checkSupabaseConfig()) {
+    return SAMPLE_PRODUCTS.filter(p => p.category === category)
+  }
+
   const supabase = await createClient()
   const { data, error } = await supabase
     .from('products')
